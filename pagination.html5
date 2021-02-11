@@ -1,0 +1,69 @@
+<!-- indexer::stop -->
+<nav class="pagination block" aria-label="<?= $this->pagination ?>">
+
+  <p><?= $this->total ?></p>
+
+  <ul>
+    <?php if ($this->hasFirst): ?>
+      <li class="first"><a href="<?= $this->first['href'] ?>" class="first" title="<?= $this->first['title'] ?>"><?= $this->first['link'] ?></a></li>
+    <?php endif; ?>
+
+    <?php if ($this->hasPrevious): ?>
+      <li class="previous"><a href="<?= $this->previous['href'] ?>" class="previous" title="<?= $this->previous['title'] ?>"><?= $this->previous['link'] ?></a></li>
+    <?php endif; ?>
+
+    <?php $i=0;foreach ($this->pages as $page): ?>
+      <?php if (null === $page['href']): ?>
+      <?php $activ = $page['page']; ?>
+        <li><strong class="active"><?= $page['page'] ?></strong></li>
+      <?php else: ?>
+        <li><a href="<?= $page['href'] ?>" class="link" title="<?= $page['title'] ?>"><?= $page['page'] ?></a></li>
+      <?php endif; ?>
+    <?php $i++; endforeach; ?>
+
+    <!-- begin add 'last side' by beRecont -->
+    <?php $lasttitle = ($this->last['title']); preg_match("/\d+/",$lasttitle,$result); $allpages = $result[0]; $iiv = ($allpages - 3); ?>
+    <?php if (($this->hasLast) && (($activ) < $iiv)): ?>
+      <li class="link">...</li>
+      <li class="link"><a href="<?= $this->last['href'] ?>" class="last" title="<?= $this->last['title'] ?>"><?= $allpages ?></a></li>
+    <?php endif; ?>
+    <!-- end add 'last side' -->
+
+    <?php if ($this->hasNext): ?>
+      <li class="next"><a href="<?= $this->next['href'] ?>" class="next" title="<?= $this->next['title'] ?>"><?= $this->next['link'] ?></a></li>
+    <?php endif; ?>
+
+    <?php if ($this->hasLast): ?>
+      <li class="last"><a href="<?= $this->last['href'] ?>" class="last" title="<?= $this->last['title'] ?>"><?= $this->last['link'] ?></a></li>
+    <?php endif; ?>
+
+    <!-- begin add 'goto page' by beRecont -->
+    <li class="gotoPage">
+      <input aria-label="Seite eingeben" type='text' id='userInput' value='' placeholder='<?= $allpages ?>' />
+      <input aria-label="gehe zur Seite" type='button' onclick='gotoPage()' value='go'/>
+    </li>
+    <!-- end add 'goto page' -->
+    
+  </ul>
+
+</nav>
+<!-- indexer::continue -->
+
+<!-- begin script 'goto page' by beRecont -->
+<script>
+  function gotoPage(){
+    var pageno = "<?php echo $allpages ?>";
+    var loc = window.location.pathname;
+    var userInput = document.getElementById('userInput').value;
+    if (userInput == '') {
+      return false;
+    }
+    var link = loc + '?page_n4=' + userInput;
+    if ( Number(pageno) < Number(userInput) ) {
+      return false;
+    }
+    window.open(link, "_self");
+}
+</script>
+<!-- end script 'goto page' -->
+
