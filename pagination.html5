@@ -23,7 +23,7 @@
 
     <!-- begin add 'last side' by beRecont -->
     <?php $lasttitle = ($this->last['title']); preg_match("/\d+/",$lasttitle,$result); $allpages = $result[0]; $iiv = ($allpages - 3); ?>
-    <?php if (($this->hasLast) && (($activ) < $iiv)): ?>
+    <?php if ((($this->hasLast && ($allpages > 7))) && (($activ) < $iiv)): ?>
       <li class="link">...</li>
       <li class="link"><a href="<?= $this->last['href'] ?>" class="last" title="<?= $this->last['title'] ?>"><?= $allpages ?></a></li>
     <?php endif; ?>
@@ -38,10 +38,12 @@
     <?php endif; ?>
 
     <!-- begin add 'goto page' by beRecont -->
+    <?php if ($allpages > 7): ?>
     <li class="gotoPage">
       <input aria-label="Seite eingeben" type='text' id='userInput' value='' placeholder='<?= $allpages ?>' />
       <input aria-label="gehe zur Seite" type='button' onclick='gotoPage()' value='go'/>
     </li>
+    <?php endif ?>
     <!-- end add 'goto page' -->
     
   </ul>
